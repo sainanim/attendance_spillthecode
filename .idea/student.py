@@ -1,11 +1,12 @@
 class Student:
-    def __init__(self, name, fees_rate):
+    def __init__(self, name, fees_rate, email):
         self.name = name
         self.dates_attended = []
         self.fees_rate = fees_rate
         self.fees_paid = 0
         self.fees_status = "Unpaid"
-        self.credit_classes = 0  # extra classes paid for
+        self.credit_classes = 0
+        self.email = email  # NEW!
 
     def add_attendance(self, date):
         self.dates_attended.append(date)
@@ -19,7 +20,6 @@ class Student:
             extra_amount = self.fees_paid - expected_fees
             extra_classes = extra_amount // self.fees_rate
             self.credit_classes += int(extra_classes)
-            # Keep partial leftover money if it doesn't complete a full class
             self.fees_paid = expected_fees + (extra_amount % self.fees_rate)
 
         self.update_status()

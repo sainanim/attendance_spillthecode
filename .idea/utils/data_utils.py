@@ -9,7 +9,8 @@ def save_data(students, filename="data/students.json"):
             "fees_rate": student.fees_rate,
             "fees_paid": student.fees_paid,
             "fees_status": student.fees_status,
-            "credit_classes": student.credit_classes
+            "credit_classes": student.credit_classes,
+            "email": student.email  # NEW
         }
     with open(filename, "w") as f:
         json.dump(data, f, indent=4)
@@ -22,7 +23,7 @@ def load_data(filename="data/students.json"):
         return {}
     students = {}
     for name, info in data.items():
-        s = Student(name, info["fees_rate"])
+        s = Student(name, info["fees_rate"], info.get("email", ""))
         s.dates_attended = info["dates_attended"]
         s.fees_paid = info["fees_paid"]
         s.fees_status = info["fees_status"]

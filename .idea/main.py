@@ -7,9 +7,10 @@ students = load_data()
 def add_student():
     name = input("Enter student name: ")
     rate = float(input("Enter fees rate per class: "))
-    students[name] = Student(name, rate)
+    email = input("Enter parent email: ")
+    students[name] = Student(name, rate, email)
     save_data(students)
-    print(f"Student {name} added.")
+    print(f"Student {name} added with email {email}.")
 
 def mark_attendance():
     name = input("Enter student name: ")
@@ -38,6 +39,7 @@ def show_summary():
         student = students[name]
         due = student.calculate_due()
         print(f"\nSummary for {student.name}:")
+        print(f"Email: {student.email}")
         print(f"Dates attended: {student.dates_attended}")
         print(f"Fees paid: ${student.fees_paid}")
         print(f"Remaining due: ${due}")
@@ -60,9 +62,11 @@ def send_monthly_summary():
             f"Remaining due: ${due}\n\n"
             f"Thank you!"
         )
-        parent_email = input(f"Enter email of {student.name}'s parent: ")
-        send_email(parent_email, f"{student.name} Monthly Fee Summary", body, from_email, password)
-        print(f"Summary email sent to {parent_email}")
+        if student.email:
+            send_email(student.email, f"{student.name} Monthly Fee Summary", body, from_email, password)
+            print(f"Summary email sent to {student.email}")
+        else:
+            print(f"No email found for {student.name}, skipping.")
 
 def menu():
     while True:
